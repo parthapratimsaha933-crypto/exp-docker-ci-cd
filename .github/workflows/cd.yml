@@ -13,6 +13,19 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Code checkout
+        uses: actions/checkout@v4
+
+      - name: Setting Up Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Build and Test
+        run: mvn clean package -DskipTests
+
       - name: Build Image
         run: docker build -t ${{ secrets.DOCKER_USERNAME }}/${{env.IMAGE_NAME}}:latest .
 
